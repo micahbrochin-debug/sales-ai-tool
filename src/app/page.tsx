@@ -19,13 +19,76 @@ interface CustomGPT {
 }
 
 interface GPTResults {
-  [key: string]: string
+  [key: string]: string | undefined
   salesPlan?: string
 }
 
 interface ChatMessage {
   role: 'user' | 'assistant'
   content: string
+}
+
+interface LinkedInData {
+  success?: boolean
+  error?: string
+  firstName?: string
+  lastName?: string
+  title?: string
+  company?: string
+  location?: string
+  summary?: string
+  connections?: string
+  industry?: string
+  email?: string
+  careerHistory?: Array<{
+    title?: string
+    company?: string
+    duration?: string
+    location?: string
+    description?: string
+  }>
+  education?: Array<{
+    school?: string
+    degree?: string
+    field?: string
+    years?: string
+    details?: string
+  }>
+  skills?: string[]
+  licenses?: Array<{
+    name?: string
+    issuer?: string
+    date?: string
+    details?: string
+  }>
+  certifications?: Array<{
+    name?: string
+    issuer?: string
+    date?: string
+    details?: string
+  }>
+  languages?: string[]
+  volunteerWork?: Array<{
+    organization?: string
+    role?: string
+    duration?: string
+    description?: string
+  }>
+  personalDetails?: {
+    interests?: string[]
+    publications?: Array<{
+      name?: string
+      publisher?: string
+      date?: string
+    }>
+    awards?: Array<{
+      name?: string
+      issuer?: string
+      date?: string
+    }>
+    patents?: string[]
+    recommendations?: string[]
+  }
 }
 
 export default function Home() {
@@ -49,7 +112,7 @@ export default function Home() {
   const [gptConfigMinimized, setGptConfigMinimized] = useState(false)
   const [linkedinUrl, setLinkedinUrl] = useState('https://www.linkedin.com')
   const [showLinkedInBrowser, setShowLinkedInBrowser] = useState(false)
-  const [linkedinData, setLinkedinData] = useState<Record<string, unknown> | null>(null)
+  const [linkedinData, setLinkedinData] = useState<LinkedInData | null>(null)
   const [showLinkedinData, setShowLinkedinData] = useState(false)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [isProcessingOCR, setIsProcessingOCR] = useState(false)
@@ -1032,7 +1095,7 @@ export default function Home() {
                         <div className="bg-slate-600 rounded-lg p-4 border border-slate-500">
                           <h3 className="text-white font-medium mb-3">Career History</h3>
                           <div className="space-y-3">
-                            {linkedinData.careerHistory.map((position: Record<string, unknown>, index: number) => (
+                            {linkedinData.careerHistory.map((position, index: number) => (
                               <div key={index} className="border-l-2 border-[#ff6633] pl-4">
                                 <div className="flex justify-between items-start mb-1">
                                   <h4 className="text-white font-medium">{position.title}</h4>
@@ -1052,13 +1115,13 @@ export default function Home() {
                         <div className="bg-slate-600 rounded-lg p-4 border border-slate-500">
                           <h3 className="text-white font-medium mb-3">Education</h3>
                           <div className="space-y-3">
-                            {linkedinData.education.map((edu: Record<string, unknown>, index: number) => (
+                            {linkedinData.education.map((edu, index: number) => (
                               <div key={index} className="border-l-2 border-[#007a8a] pl-4">
                                 <h4 className="text-white font-medium">{edu.degree}</h4>
                                 <p className="text-[#4da6b3] text-sm">{edu.school}</p>
                                 <div className="flex justify-between items-center">
-                                  <p className="text-slate-400 text-xs">{edu.location}</p>
-                                  <p className="text-slate-300 text-xs">{edu.year}</p>
+                                  <p className="text-slate-400 text-xs">{edu.field}</p>
+                                  <p className="text-slate-300 text-xs">{edu.years}</p>
                                 </div>
                                 {edu.details && (
                                   <p className="text-slate-200 text-sm mt-1">{edu.details}</p>
@@ -1075,12 +1138,12 @@ export default function Home() {
                           <div className="bg-slate-600 rounded-lg p-4 border border-slate-500">
                             <h3 className="text-white font-medium mb-3">Licenses</h3>
                             <div className="space-y-2">
-                              {linkedinData.licenses.map((license: Record<string, unknown>, index: number) => (
+                              {linkedinData.licenses.map((license, index: number) => (
                                 <div key={index} className="border-l-2 border-green-400 pl-3">
                                   <p className="text-white text-sm font-medium">{license.name}</p>
                                   <p className="text-green-300 text-xs">{license.issuer}</p>
                                   <p className="text-slate-400 text-xs">
-                                    {license.issued} - {license.expires}
+                                    {license.issuer} - {license.date}
                                   </p>
                                 </div>
                               ))}
@@ -1092,12 +1155,12 @@ export default function Home() {
                           <div className="bg-slate-600 rounded-lg p-4 border border-slate-500">
                             <h3 className="text-white font-medium mb-3">Certifications</h3>
                             <div className="space-y-2">
-                              {linkedinData.certifications.map((cert: Record<string, unknown>, index: number) => (
+                              {linkedinData.certifications.map((cert, index: number) => (
                                 <div key={index} className="border-l-2 border-purple-400 pl-3">
                                   <p className="text-white text-sm font-medium">{cert.name}</p>
                                   <p className="text-purple-300 text-xs">{cert.issuer}</p>
                                   <p className="text-slate-400 text-xs">
-                                    Issued: {cert.issued} | Expires: {cert.expires}
+                                    Issued: {cert.issuer} | Date: {cert.date}
                                   </p>
                                 </div>
                               ))}
@@ -1125,10 +1188,9 @@ export default function Home() {
                           <div className="bg-slate-600 rounded-lg p-4 border border-slate-500">
                             <h3 className="text-white font-medium mb-3">Languages</h3>
                             <div className="space-y-2">
-                              {linkedinData.languages.map((lang: Record<string, unknown>, index: number) => (
+                              {linkedinData.languages.map((lang: string, index: number) => (
                                 <div key={index} className="flex justify-between">
-                                  <span className="text-slate-200 text-sm">{lang.language}</span>
-                                  <span className="text-slate-400 text-xs">{lang.proficiency}</span>
+                                  <span className="text-slate-200 text-sm">{lang}</span>
                                 </div>
                               ))}
                             </div>
@@ -1157,10 +1219,10 @@ export default function Home() {
                           {linkedinData.personalDetails.awards && (
                             <div className="mb-3">
                               <h4 className="text-slate-300 text-sm font-medium mb-2">Awards & Honors</h4>
-                              {linkedinData.personalDetails.awards.map((award: Record<string, unknown>, index: number) => (
+                              {linkedinData.personalDetails.awards.map((award, index: number) => (
                                 <div key={index} className="text-sm mb-1">
-                                  <span className="text-white">{award.title}</span>
-                                  <span className="text-slate-400"> - {award.issuer} ({award.year})</span>
+                                  <span className="text-white">{award.name}</span>
+                                  <span className="text-slate-400"> - {award.issuer} ({award.date})</span>
                                 </div>
                               ))}
                             </div>
@@ -1169,9 +1231,9 @@ export default function Home() {
                           {linkedinData.personalDetails.publications && (
                             <div className="mb-3">
                               <h4 className="text-slate-300 text-sm font-medium mb-2">Publications</h4>
-                              {linkedinData.personalDetails.publications.map((pub: Record<string, unknown>, index: number) => (
+                              {linkedinData.personalDetails.publications.map((pub, index: number) => (
                                 <div key={index} className="text-sm mb-1">
-                                  <span className="text-white">{pub.title}</span>
+                                  <span className="text-white">{pub.name}</span>
                                   <span className="text-slate-400"> - {pub.publisher} ({pub.date})</span>
                                 </div>
                               ))}
@@ -1181,7 +1243,7 @@ export default function Home() {
                           {linkedinData.volunteerWork && (
                             <div>
                               <h4 className="text-slate-300 text-sm font-medium mb-2">Volunteer Experience</h4>
-                              {linkedinData.volunteerWork.map((vol: Record<string, unknown>, index: number) => (
+                              {linkedinData.volunteerWork.map((vol, index: number) => (
                                 <div key={index} className="mb-2">
                                   <p className="text-white text-sm">{vol.role} at {vol.organization}</p>
                                   <p className="text-slate-400 text-xs">{vol.duration}</p>

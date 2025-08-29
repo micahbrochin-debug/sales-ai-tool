@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     const contextString = `RESEARCH ANALYSIS:\n${allGPTOutputs}\n\nSALES PLAN:\n${context.salesPlan || 'No sales plan available'}`
 
     // Build conversation messages
-    const messages = [
+    const messages: Array<{role: 'system' | 'user' | 'assistant', content: string}> = [
       {
         role: "system" as const,
         content: `You are an expert sales assistant with access to current market intelligence and comprehensive prospect research. You have access to the complete analysis and sales plan for this prospect.
@@ -62,7 +62,10 @@ Be conversational, helpful, and reference specific details from the research whe
 
     // Add conversation history if it exists
     if (chatHistory && chatHistory.length > 0) {
-      messages.push(...chatHistory)
+      messages.push(...chatHistory.map(msg => ({
+        role: msg.role as 'user' | 'assistant',
+        content: msg.content
+      })))
     }
 
     // Add current message
