@@ -1,0 +1,20 @@
+{
+  "name": "sales-ai-tool",
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "OPENAI_API_KEY": "@openai-api-key",
+    "TAVILY_API_KEY": "@tavily-api-key"
+  }
+}
