@@ -7,7 +7,7 @@ interface ChatMessage {
 }
 
 interface GPTResults {
-  [key: string]: string
+  [key: string]: string | undefined
   salesPlan?: string
 }
 
