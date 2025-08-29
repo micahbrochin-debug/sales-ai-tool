@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import * as cheerio from 'cheerio'
 
 export async function POST(request: NextRequest) {
   try {

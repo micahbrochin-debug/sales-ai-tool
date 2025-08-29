@@ -238,7 +238,7 @@ If information is not available, use descriptive placeholders like "Not visible 
       }
       
       parsedData = JSON.parse(cleanedData)
-    } catch (parseError) {
+    } catch {
       console.error('Failed to parse JSON response:', extractedData.substring(0, 500))
       throw new Error('Invalid JSON response from AI parser')
     }

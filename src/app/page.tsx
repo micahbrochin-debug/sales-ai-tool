@@ -49,7 +49,7 @@ export default function Home() {
   const [gptConfigMinimized, setGptConfigMinimized] = useState(false)
   const [linkedinUrl, setLinkedinUrl] = useState('https://www.linkedin.com')
   const [showLinkedInBrowser, setShowLinkedInBrowser] = useState(false)
-  const [linkedinData, setLinkedinData] = useState<any>(null)
+  const [linkedinData, setLinkedinData] = useState<Record<string, unknown> | null>(null)
   const [showLinkedinData, setShowLinkedinData] = useState(false)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [isProcessingOCR, setIsProcessingOCR] = useState(false)
@@ -865,7 +865,7 @@ export default function Home() {
                         <div className="bg-slate-700 rounded-lg p-4">
                           <h4 className="text-white font-medium mb-2">Quick URL Entry</h4>
                           <p className="text-slate-300 text-sm mb-3">
-                            Copy the LinkedIn profile URL and paste it above, then click "Collect Data".
+                            Copy the LinkedIn profile URL and paste it above, then click &quot;Collect Data&quot;.
                           </p>
                           <div className="flex space-x-2">
                             <input
@@ -1032,7 +1032,7 @@ export default function Home() {
                         <div className="bg-slate-600 rounded-lg p-4 border border-slate-500">
                           <h3 className="text-white font-medium mb-3">Career History</h3>
                           <div className="space-y-3">
-                            {linkedinData.careerHistory.map((position: any, index: number) => (
+                            {linkedinData.careerHistory.map((position: Record<string, unknown>, index: number) => (
                               <div key={index} className="border-l-2 border-[#ff6633] pl-4">
                                 <div className="flex justify-between items-start mb-1">
                                   <h4 className="text-white font-medium">{position.title}</h4>
@@ -1052,7 +1052,7 @@ export default function Home() {
                         <div className="bg-slate-600 rounded-lg p-4 border border-slate-500">
                           <h3 className="text-white font-medium mb-3">Education</h3>
                           <div className="space-y-3">
-                            {linkedinData.education.map((edu: any, index: number) => (
+                            {linkedinData.education.map((edu: Record<string, unknown>, index: number) => (
                               <div key={index} className="border-l-2 border-[#007a8a] pl-4">
                                 <h4 className="text-white font-medium">{edu.degree}</h4>
                                 <p className="text-[#4da6b3] text-sm">{edu.school}</p>
@@ -1075,7 +1075,7 @@ export default function Home() {
                           <div className="bg-slate-600 rounded-lg p-4 border border-slate-500">
                             <h3 className="text-white font-medium mb-3">Licenses</h3>
                             <div className="space-y-2">
-                              {linkedinData.licenses.map((license: any, index: number) => (
+                              {linkedinData.licenses.map((license: Record<string, unknown>, index: number) => (
                                 <div key={index} className="border-l-2 border-green-400 pl-3">
                                   <p className="text-white text-sm font-medium">{license.name}</p>
                                   <p className="text-green-300 text-xs">{license.issuer}</p>
@@ -1092,7 +1092,7 @@ export default function Home() {
                           <div className="bg-slate-600 rounded-lg p-4 border border-slate-500">
                             <h3 className="text-white font-medium mb-3">Certifications</h3>
                             <div className="space-y-2">
-                              {linkedinData.certifications.map((cert: any, index: number) => (
+                              {linkedinData.certifications.map((cert: Record<string, unknown>, index: number) => (
                                 <div key={index} className="border-l-2 border-purple-400 pl-3">
                                   <p className="text-white text-sm font-medium">{cert.name}</p>
                                   <p className="text-purple-300 text-xs">{cert.issuer}</p>
@@ -1125,7 +1125,7 @@ export default function Home() {
                           <div className="bg-slate-600 rounded-lg p-4 border border-slate-500">
                             <h3 className="text-white font-medium mb-3">Languages</h3>
                             <div className="space-y-2">
-                              {linkedinData.languages.map((lang: any, index: number) => (
+                              {linkedinData.languages.map((lang: Record<string, unknown>, index: number) => (
                                 <div key={index} className="flex justify-between">
                                   <span className="text-slate-200 text-sm">{lang.language}</span>
                                   <span className="text-slate-400 text-xs">{lang.proficiency}</span>
@@ -1157,7 +1157,7 @@ export default function Home() {
                           {linkedinData.personalDetails.awards && (
                             <div className="mb-3">
                               <h4 className="text-slate-300 text-sm font-medium mb-2">Awards & Honors</h4>
-                              {linkedinData.personalDetails.awards.map((award: any, index: number) => (
+                              {linkedinData.personalDetails.awards.map((award: Record<string, unknown>, index: number) => (
                                 <div key={index} className="text-sm mb-1">
                                   <span className="text-white">{award.title}</span>
                                   <span className="text-slate-400"> - {award.issuer} ({award.year})</span>
@@ -1169,7 +1169,7 @@ export default function Home() {
                           {linkedinData.personalDetails.publications && (
                             <div className="mb-3">
                               <h4 className="text-slate-300 text-sm font-medium mb-2">Publications</h4>
-                              {linkedinData.personalDetails.publications.map((pub: any, index: number) => (
+                              {linkedinData.personalDetails.publications.map((pub: Record<string, unknown>, index: number) => (
                                 <div key={index} className="text-sm mb-1">
                                   <span className="text-white">{pub.title}</span>
                                   <span className="text-slate-400"> - {pub.publisher} ({pub.date})</span>
@@ -1181,7 +1181,7 @@ export default function Home() {
                           {linkedinData.volunteerWork && (
                             <div>
                               <h4 className="text-slate-300 text-sm font-medium mb-2">Volunteer Experience</h4>
-                              {linkedinData.volunteerWork.map((vol: any, index: number) => (
+                              {linkedinData.volunteerWork.map((vol: Record<string, unknown>, index: number) => (
                                 <div key={index} className="mb-2">
                                   <p className="text-white text-sm">{vol.role} at {vol.organization}</p>
                                   <p className="text-slate-400 text-xs">{vol.duration}</p>

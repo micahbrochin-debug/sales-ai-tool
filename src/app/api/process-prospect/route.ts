@@ -33,13 +33,13 @@ export async function POST(request: NextRequest) {
       apiKey: openaiToken,
     })
 
-    // Prepare prospect context
-    const prospectContext = `
-      Name: ${prospectData.firstName} ${prospectData.lastName}
-      Company: ${prospectData.company}
-      Title: ${prospectData.title || 'Not specified'}
-      Email: ${prospectData.email || 'Not specified'}
-    `
+    // Prepare prospect context (for future use)
+    // const prospectContext = `
+    //   Name: ${prospectData.firstName} ${prospectData.lastName}
+    //   Company: ${prospectData.company}
+    //   Title: ${prospectData.title || 'Not specified'}
+    //   Email: ${prospectData.email || 'Not specified'}
+    // `
 
     // Perform web search for current information
     console.log('Gathering current web intelligence...')
